@@ -1,4 +1,4 @@
-function zTable = sumDistanceByZ2 (dataArray)
+function zTable = sumDistanceByZ (dataArray)
 
 allzValue=dataArray(3:end,10);
 allDistances=dataArray(3:end,12);
@@ -34,4 +34,5 @@ for i=1:size(sortedTable,1) %Get distances of each path
 end
 header=["Z Values", "Sum (um)"];
 zTable=table(zValue,sumOfPaths,'VariableNames',header);
+
 end
