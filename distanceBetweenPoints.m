@@ -1,4 +1,4 @@
-function dataWithXYZDistance = distanceBetweenPoints2 (xcelSheet,zmin,normfactor)
+function dataWithXYZDistance = distanceBetweenPoints (xcelSheet,zmin,normfactor)
 
 xd=zeros(size(xcelSheet,1)-1,1); %additional columns change in x,y,z,d then with normalized z value
 yd=zeros(size(xcelSheet,1)-1,1);
@@ -45,4 +45,5 @@ dataWithXYZDistance=[dataWithXYZDistance ['Distance'; num2cell(d)]];
 dataWithXYZDistance=[dataWithXYZDistance ['ZCor'; num2cell(zc)]];
 dataWithXYZDistance=[dataWithXYZDistance ['ZdCor'; num2cell(zdc)]];
 dataWithXYZDistance=[dataWithXYZDistance ['DistanceCor'; num2cell(dc)]];
+
 end
