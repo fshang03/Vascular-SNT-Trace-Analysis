@@ -1,7 +1,7 @@
 clear;
 clc;
 
-fnames="4346L_C57GCaMP_20250114_60x_Bright_SNT_Data.traces.csv";
+fnames="File Name.csv"; %Use file created by the XYZ_SNT_script
     fromSNT=readcell(fnames);
 
 %Get rescale z values
@@ -40,20 +40,19 @@ for i=3:size(removepoints,1)
     end
 end
 
-% plotTheVasculature2(removepoints,pathNum,fnames); %Color coded 3D plot
-
-dataWithXYZDistance=distanceBetweenPoints2(removepoints,z1,hold); %Adds XD YD ZD and Distance between two points columns to original data
+dataWithXYZDistance=distanceBetweenPoints(removepoints,z1,hold); %Adds XD YD ZD and Distance between two points columns to original data
 dataWithPathDistance=distanceBetweenEndPoints(dataWithXYZDistance,pathNum);
 
-writecell(dataWithXYZDistance,"C:\Users\fshang\OneDrive - University of Rochester\Documents\NG2Akita\60x\Results\"+extractBefore(fnames,"SNT")+"Analysis1.xlsx",'Sheet','Xd Yd Zd Distance');
+writecell(dataWithXYZDistance,"File Location"+extractBefore(fnames,"SNT")+"Analysis.xlsx",'Sheet','Xd Yd Zd Distance');
 
-zTable=sumDistanceByZ2(dataWithXYZDistance);
-writetable(zTable,"C:\Users\fshang\OneDrive - University of Rochester\Documents\NG2Akita\60x\Results\"+extractBefore(fnames,"SNT")+"Analysis1.xlsx",'Sheet','Distance by Z');
+zTable=sumDistanceByZ(dataWithXYZDistance);
+writetable(zTable,"File Location"+extractBefore(fnames,"SNT")+"Analysis.xlsx",'Sheet','Distance by Z');
 
 [lengths, distanceByCategory]=distanceByPathLabel2(dataWithXYZDistance,pathNum);
-writecell(lengths,"C:\Users\fshang\OneDrive - University of Rochester\Documents\NG2Akita\60x\Results\"+extractBefore(fnames,"SNT")+"Analysis1.xlsx",'Sheet','Path Lengths');
-writetable(distanceByCategory,"C:\Users\fshang\OneDrive - University of Rochester\Documents\NG2Akita\60x\Results\"+extractBefore(fnames,"SNT")+"Analysis1.xlsx",'Sheet','Distance by Category');
+writecell(lengths,"File Location"+extractBefore(fnames,"SNT")+"Analysis.xlsx",'Sheet','Path Lengths');
+writetable(distanceByCategory,"File Location"+extractBefore(fnames,"SNT")+"Analysis.xlsx",'Sheet','Distance by Category');
 
 [theStraightPath, tortuosityByCategory]=lengthOfPath(dataWithPathDistance,lengths,pathNum);
-writecell(theStraightPath,"C:\Users\fshang\OneDrive - University of Rochester\Documents\NG2Akita\60x\Results\"+extractBefore(fnames,"SNT")+"Analysis1.xlsx",'Sheet','Tortuosity');
-writecell(tortuosityByCategory,"C:\Users\fshang\OneDrive - University of Rochester\Documents\NG2Akita\60x\Results\"+extractBefore(fnames,"SNT")+"Analysis1.xlsx",'Sheet','Tortuosity by Category');
+writecell(theStraightPath,"File Location"+extractBefore(fnames,"SNT")+"Analysis.xlsx",'Sheet','Tortuosity');
+
+writecell(tortuosityByCategory,"File Location"+extractBefore(fnames,"SNT")+"Analysis.xlsx",'Sheet','Tortuosity by Category');
