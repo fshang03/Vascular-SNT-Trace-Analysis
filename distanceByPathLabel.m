@@ -1,4 +1,4 @@
-function [lengths, distanceByCategory]=distanceByPathLabel2(data,numOfPaths)
+function [lengths, distanceByCategory]=distanceByPathLabel(data,numOfPaths)
 lengths=cell(numOfPaths,3); %Create empty array with rows=number of paths columns will be path, category, distance in that order
 r=1; %row counter
 d=0;
@@ -97,4 +97,5 @@ end
 % rowN(end+1)=cellstr('LABEL');
 
 distanceByCategory=table(Superficial,Diving1,Intermediate,Diving2,Deep,'RowNames',rowN);
+
 end
