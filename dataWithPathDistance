@@ -1,0 +1,62 @@
+function dataWithPathDistance = distanceBetweenEndPoints (xcelSheet,numOfPaths)
+
+numOfPoints=numOfPaths*2;
+xcor=cell(numOfPoints,1); %additional columns change in x,y,z,d then with normalized z value
+ycor=cell(numOfPoints,1);
+zcor=cell(numOfPoints,1);
+theIndex=2;
+numHold=cell(numOfPoints,1);
+labelHold=cell(numOfPoints,1);
+r=1; %row counter
+
+for i=3:size(xcelSheet,1) %Get x, y, zcorrected coordinates
+    if i<size(xcelSheet,1)
+        if isequal(xcelSheet(i,4),xcelSheet(i-1,4)) %If path number is the same
+            xcor(r)=xcelSheet(theIndex,1);
+            ycor(r)=xcelSheet(theIndex,2);
+            zcor(r)=xcelSheet(theIndex,10);
+            numHold(r)=xcelSheet(theIndex,4); %path number
+            labelHold(r)=xcelSheet(theIndex,5); %path label
+        else
+            r=r+1;
+            theIndex=i-1; %get the index of the last coordinate of the path
+            xcor(r)=xcelSheet(theIndex,1);
+            ycor(r)=xcelSheet(theIndex,2);
+            zcor(r)=xcelSheet(theIndex,10);
+            numHold(r)=xcelSheet(theIndex,4); %path number
+            labelHold(r)=xcelSheet(theIndex,5); %path label
+            theIndex=i;
+            r=r+1; %don't want to overwrite last number
+        end
+    else
+        r=r+1;
+        theIndex=i;
+        xcor(r)=xcelSheet(theIndex,1);
+        ycor(r)=xcelSheet(theIndex,2);
+        zcor(r)=xcelSheet(theIndex,10);
+        numHold(r)=xcelSheet(theIndex,4); %path number
+        labelHold(r)=xcelSheet(theIndex,5); %path label
+    end
+end
+
+xd=zeros(numOfPaths+1,1);
+yd=zeros(numOfPaths+1,1);
+zd=zeros(numOfPaths+1,1);
+d=zeros(numOfPaths+1,1);
+pathNum=cell(numOfPaths+1,1);
+pathLabel=cell(numOfPaths+1,1);
+
+for i=1:numOfPaths+1 %get the distance between end points
+    xd(i)= cell2mat(xcor(i+i)) - cell2mat(xcor(i+i-1));
+    yd(i)= cell2mat(ycor(i+i)) - cell2mat(ycor(i+i-1));
+    zd(i)= cell2mat(zcor(i+i)) - cell2mat(zcor(i+i-1));
+    d(i)=sqrt((xd(i)^2)+(yd(i)^2)+(zd(i)^2));
+    pathNum(i)=numHold(i+i);
+    pathLabel(i)=labelHold(i+i);
+end
+
+dataWithPathDistance=['Path'; pathNum];
+dataWithPathDistance=[dataWithPathDistance ['Category'; pathLabel]];
+dataWithPathDistance=[dataWithPathDistance ['Length (um)'; num2cell(d)]];
+
+end
